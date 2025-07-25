@@ -2,8 +2,7 @@ version: '3.8'
 
 services:
   pansou:
-    # 使用本地构建而不是拉取镜像
-    build: .
+    image: ghcr.io/fish2018/pansou:latest
     container_name: pansou
     restart: unless-stopped
     ports:
@@ -24,28 +23,20 @@ services:
       # - PROXY=socks5://proxy:7897
     volumes:
       - pansou-cache:/app/cache
+      # 挂载您的UI文件到容器内的web目录
+      - ./web:/app/web
     networks:
       - pansou-network
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:8888/api/health"]
       interval: 30s
-      timeout: 5s
+      timeout: 10s
       retries: 3
-      start_period: 10s
-
-  # 如果需要代理，取消下面的注释
-  # proxy:
-  #   image: ghcr.io/snail007/goproxy:latest
-  #   container_name: pansou-proxy
-  #   restart: unless-stopped
-  #   command: /proxy socks -p :7897
-  #   networks:
-  #     - pansou-network
 
 volumes:
   pansou-cache:
-    name: pansou-cache
+    driver: local
 
 networks:
   pansou-network:
-    name: pansou-network 
+    driver: bridge
