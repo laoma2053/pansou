@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PanSou</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container home-layout" id="container">
+        <header class="header">
+            <h1>PanSou</h1>
+            <p class="subtitle">网盘资源搜索引擎</p>
+        </header>
+
+        <main class="main">
+            <div class="search-section">
+                <div class="search-input-wrapper">
+                    <input type="text" id="searchInput" placeholder="搜索网盘资源..." />
+                    <button id="searchBtn" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="search-buttons">
+                    <button class="btn" id="searchBtnMain">PanSou 搜索</button>
+                    <button class="btn" id="luckyBtn">手气不错</button>
+                </div>
+                
+                <div class="search-options">
+                    <div class="option-group">
+                        <label>来源:</label>
+                        <select id="sourceType">
+                            <option value="all">全部</option>
+                            <option value="tg">Telegram</option>
+                            <option value="plugin">插件</option>
+                        </select>
+                    </div>
+                    
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="refreshCache"> 强制刷新
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="loadingDiv" class="loading hidden">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>正在搜索...</span>
+            </div>
+
+            <div id="resultsDiv" class="results hidden">
+                <div class="results-header">
+                    <span id="resultCount" class="result-count">找到约 0 条结果</span>
+                </div>
+                
+                <div class="result-tabs">
+                    <button class="tab-btn active" data-type="list">全部</button>
+                    <button class="tab-btn" data-type="merged">按类型</button>
+                </div>
+                
+                <div id="listResults" class="tab-content active">
+                    <!-- 搜索结果列表 -->
+                </div>
+                
+                <div id="mergedResults" class="tab-content">
+                    <!-- 按类型分组的结果 -->
+                </div>
+            </div>
+
+            <div id="errorDiv" class="error hidden">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="errorMessage"></span>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 PanSou</p>
+            <div class="footer-links">
+                <a href="/api/health" target="_blank">关于</a>
+                <a href="https://github.com/fish2018/pansou" target="_blank">GitHub</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+	
 	"github.com/gin-gonic/gin"
 	"pansou/config"
 	"pansou/service"
@@ -22,6 +24,23 @@ func SetupRouter(searchService *service.SearchService) *gin.Engine {
 	r.Use(CORSMiddleware())
 	r.Use(LoggerMiddleware())
 	r.Use(util.GzipMiddleware()) // 添加压缩中间件
+	
+	// 静态文件服务 - 提供Web UI
+	r.Static("/static", "./web")
+	r.StaticFile("/", "./web/index.html")
+	r.StaticFile("/favicon.ico", "./web/favicon.ico")
+	
+	// 处理单页应用的路由 - 对于非API路径，返回index.html
+	r.NoRoute(func(c *gin.Context) {
+		path := c.Request.URL.Path
+		// 如果是API路径，返回404
+		if len(path) >= 4 && path[:4] == "/api" {
+			c.JSON(http.StatusNotFound, gin.H{"error": "API not found"})
+			return
+		}
+		// 其他路径返回index.html（支持前端路由）
+		c.File("./web/index.html")
+	})
 	
 	// 定义API路由组
 	api := r.Group("/api")
