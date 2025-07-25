@@ -24,7 +24,7 @@ services:
     volumes:
       - pansou-cache:/app/cache
       # 挂载您的UI文件到容器内的web目录
-      - ./web:/app/web
+      - ./web:/app/web:ro
     networks:
       - pansou-network
     healthcheck:

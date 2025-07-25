@@ -54,12 +54,26 @@ echo "🔍 检查服务状态..."
 if docker ps | grep -q pansou; then
     echo "✅ 容器启动成功！"
     
+    # 检查挂载情况
+    echo "📁 检查文件挂载情况..."
+    echo "容器内web目录内容："
+    docker exec pansou ls -la /app/web/ 2>/dev/null || echo "⚠️  无法访问容器内/app/web目录"
+    
+    echo "本地web目录内容："
+    ls -la ./web/ 2>/dev/null || echo "⚠️  本地web目录不存在"
+    
+    # 检查容器挂载点
+    echo "检查容器挂载点："
+    docker inspect pansou | grep -A 10 -B 2 "Mounts" || echo "⚠️  无法获取挂载信息"
+    
     # 测试API
     echo "🧪 测试API连接..."
     if curl -s http://localhost:8888/api/health > /dev/null 2>&1; then
         echo "✅ API服务正常"
     else
         echo "⚠️  API服务可能还在启动中"
+        echo "尝试其他API端点："
+        curl -s http://localhost:8888/api/ 2>/dev/null || echo "API无响应"
     fi
     
     # 测试前端
@@ -67,7 +81,8 @@ if docker ps | grep -q pansou; then
     if curl -s http://localhost:8888/ | grep -q "PanSou" > /dev/null 2>&1; then
         echo "✅ 前端页面正常"
     else
-        echo "⚠️  前端页面可能还在加载中"
+        echo "⚠️  前端页面返回内容："
+        curl -s http://localhost:8888/ | head -5 || echo "无法获取页面内容"
     fi
     
     echo
