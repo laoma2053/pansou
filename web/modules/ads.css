@@ -1,0 +1,268 @@
+/* 广告模块样式 - 原生化设计 */
+
+/* 基础广告容器样式 */
+.ad-container {
+    margin: 16px 0;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: transparent;
+}
+
+/* 广告占位符样式 */
+.ad-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border: 2px dashed #dadce0;
+    border-radius: 8px;
+    color: #5f6368;
+    font-size: 14px;
+    gap: 8px;
+    min-height: 100px;
+}
+
+.ad-placeholder i {
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+/* 搜索结果顶部广告 */
+.ad-search-top {
+    margin: 0 0 24px 0;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.ad-search-top .ad-placeholder {
+    background: #f1f3f4;
+    border-color: #e8eaed;
+    min-height: 80px;
+}
+
+/* 搜索结果中间广告 - 原生化设计 */
+.ad-search-middle {
+    margin: 16px 0;
+    padding: 16px 0;
+    border-top: 1px solid #e8eaed;
+    border-bottom: 1px solid #e8eaed;
+    background: linear-gradient(90deg, #f8f9fa 0%, #fff 50%, #f8f9fa 100%);
+}
+
+/* 让中间广告看起来像搜索结果项 */
+.ad-search-middle .adsbygoogle,
+.ad-search-middle .baidu-ad {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 12px 16px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    border-left: 3px solid #34a853; /* Google绿色边框，表示推广 */
+}
+
+.ad-search-middle .ad-placeholder {
+    background: #fff;
+    border: 1px solid #e8eaed;
+    border-left: 3px solid #fbbc04; /* Google黄色边框 */
+    min-height: 120px;
+}
+
+/* 搜索结果底部广告 */
+.ad-search-bottom {
+    margin: 24px 0 0 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e8eaed;
+}
+
+.ad-search-bottom .ad-placeholder {
+    background: #fff;
+    border-color: #dadce0;
+    min-height: 90px;
+}
+
+/* 页面底部广告 */
+.ad-footer {
+    margin: 32px auto 16px;
+    padding: 24px;
+    max-width: 1200px;
+    background: #fff;
+    border: 1px solid #e8eaed;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.ad-footer .ad-placeholder {
+    background: #f8f9fa;
+    border-color: #dadce0;
+    min-height: 120px;
+    border-radius: 8px;
+}
+
+/* 广告标识 */
+.ad-container::before {
+    content: "广告";
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    font-size: 10px;
+    color: #5f6368;
+    background: #f1f3f4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.ad-container.ad-search-middle::before {
+    content: "推广";
+    background: #e8f0fe;
+    color: #1a73e8;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .ad-container {
+        margin: 12px 0;
+        border-radius: 6px;
+    }
+    
+    .ad-search-top,
+    .ad-search-bottom {
+        padding: 12px;
+        margin: 12px 0;
+    }
+    
+    .ad-search-middle {
+        margin: 12px 0;
+        padding: 12px 0;
+    }
+    
+    .ad-footer {
+        margin: 20px 12px 12px;
+        padding: 16px;
+        border-radius: 8px;
+    }
+    
+    .ad-placeholder {
+        padding: 16px;
+        min-height: 80px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ad-container {
+        margin: 8px 0;
+    }
+    
+    .ad-search-top,
+    .ad-search-bottom,
+    .ad-footer {
+        padding: 12px;
+    }
+    
+    .ad-placeholder {
+        padding: 12px;
+        min-height: 70px;
+        font-size: 12px;
+    }
+    
+    .ad-container::before {
+        font-size: 9px;
+        padding: 1px 4px;
+    }
+}
+
+/* 广告动画效果 */
+.ad-container {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ad-container.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 鼠标悬停效果 */
+.ad-container:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+    transition: all 0.2s ease;
+}
+
+/* 广告内容样式优化 */
+.ad-container .adsbygoogle,
+.ad-container .baidu-ad {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* 隐藏广告时的样式 */
+.ad-container.hidden {
+    display: none !important;
+}
+
+/* 无广告模式的样式调整 */
+.no-ads .ad-container {
+    display: none !important;
+}
+
+/* 广告加载失败时的样式 */
+.ad-container.error {
+    background: #fef7e0;
+    border-color: #fbc02d;
+}
+
+.ad-container.error .ad-placeholder {
+    color: #f57c00;
+    background: transparent;
+    border: none;
+}
+
+.ad-container.error .ad-placeholder::before {
+    content: "⚠️ ";
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    .ad-container {
+        background: #202124;
+        border-color: #3c4043;
+    }
+    
+    .ad-placeholder {
+        background: #303134;
+        border-color: #3c4043;
+        color: #bdc1c6;
+    }
+    
+    .ad-search-top,
+    .ad-search-bottom,
+    .ad-footer {
+        background: #202124;
+        border-color: #3c4043;
+    }
+    
+    .ad-search-middle {
+        background: linear-gradient(90deg, #202124 0%, #303134 50%, #202124 100%);
+        border-color: #3c4043;
+    }
+    
+    .ad-container::before {
+        background: #3c4043;
+        color: #bdc1c6;
+    }
+}

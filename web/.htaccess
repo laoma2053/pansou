@@ -1,0 +1,22 @@
+# 确保robots.txt以正确的MIME类型返回
+<Files "robots.txt">
+    ForceType text/plain
+    Header set Content-Type "text/plain"
+    # 禁用任何内容过滤器
+    SetEnv no-gzip dont-vary
+    SetEnv no-brotli
+</Files>
+
+# 确保sitemap.xml以正确的MIME类型返回  
+<Files "sitemap.xml">
+    ForceType application/xml
+    Header set Content-Type "application/xml"
+</Files>
+
+# 禁用服务器签名注入
+ServerSignature Off
+
+# 安全头部
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options SAMEORIGIN
+Header always set Referrer-Policy "strict-origin-when-cross-origin"

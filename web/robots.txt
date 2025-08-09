@@ -1,0 +1,38 @@
+User-agent: *
+Allow: /
+
+# 允许访问的资源
+Allow: /index.html
+Allow: /style.css
+Allow: /script.js
+Allow: /modules/
+Allow: /favicon.ico
+
+# 禁止访问的目录和文件
+Disallow: /cache/
+Disallow: /logs/
+Disallow: /.git/
+Disallow: /tmp/
+Disallow: /*.log$
+Disallow: /admin/
+Disallow: /config/
+Disallow: /deploy/
+
+# 网站地图
+Sitemap: https://www.gugeso.com/sitemap.xml
+
+# 爬虫延迟设置
+Crawl-delay: 1
+
+# 专门针对搜索引擎的指令
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
