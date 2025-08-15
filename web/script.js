@@ -550,8 +550,21 @@ function displayListResults(results) {
         listResults.innerHTML = '<div class="no-results">没有找到相关结果</div>';
         return;
     }
-    
-    results.forEach(result => {
+
+    // 按时间倒序排序，优先展示最近的结果
+    const sortedResults = [...results].sort((a, b) => {
+        // 如果两个都有时间，按时间倒序
+        if (a.datetime && b.datetime) {
+            return new Date(b.datetime) - new Date(a.datetime);
+        }
+        // 如果只有一个有时间，有时间的排在前面
+        if (a.datetime && !b.datetime) return -1;
+        if (!a.datetime && b.datetime) return 1;
+        // 如果都没有时间，保持原顺序
+        return 0;
+    });
+
+    sortedResults.forEach(result => {
         const resultDiv = document.createElement('div');
         resultDiv.className = 'result-item';
         
@@ -604,6 +617,19 @@ function displayMergedResults(mergedData) {
     for (const [type, links] of Object.entries(mergedData)) {
         if (!links || links.length === 0) continue;
         
+        // 按时间倒序排序，优先展示最近的结果
+        const sortedLinks = [...links].sort((a, b) => {
+            // 如果两个都有时间，按时间倒序
+            if (a.datetime && b.datetime) {
+                return new Date(b.datetime) - new Date(a.datetime);
+            }
+            // 如果只有一个有时间，有时间的排在前面
+            if (a.datetime && !b.datetime) return -1;
+            if (!a.datetime && b.datetime) return 1;
+            // 如果都没有时间，保持原顺序
+            return 0;
+        });
+        
         const groupDiv = document.createElement('div');
         groupDiv.className = 'netdisk-group';
         groupDiv.setAttribute('data-netdisk-type', type); // 添加网盘类型标识
@@ -615,10 +641,10 @@ function displayMergedResults(mergedData) {
             <div class="netdisk-title">
                 <i class="${icon}"></i>
                 ${name}
-                <span class="netdisk-count">(${links.length})</span>
+                <span class="netdisk-count">(${sortedLinks.length})</span>
             </div>
             <div class="netdisk-links">
-                ${links.map(link => createLinkItem(link)).join('')}
+                ${sortedLinks.map(link => createLinkItem(link)).join('')}
             </div>
         `;
         
@@ -865,6 +891,22 @@ function showResults() {
         const statsDiv = document.querySelector('.results-stats');
         if (statsDiv) {
             statsDiv.style.display = 'block';
+        }
+        
+        // 移动端：自动滚动到能完全显示tab标签容器的位置
+        if (window.innerWidth <= 768) {
+            setTimeout(() => {
+                const tabsContainer = document.querySelector('.result-tabs-container');
+                if (tabsContainer) {
+                    // 滚动到tab标签容器的位置，并留出一点缓冲空间
+                    const containerTop = tabsContainer.offsetTop;
+                    const scrollOffset = Math.max(0, containerTop - 20); // 减去20px缓冲空间
+                    window.scrollTo({
+                        top: scrollOffset,
+                        behavior: 'smooth'
+                    });
+                }
+            }, 100); // 延迟100ms确保DOM渲染完成
         }
     }
 }
