@@ -14,7 +14,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # 项目目录
-PROJECT_DIR="/home/panso"  # 请修改为你的实际路径
+PROJECT_DIR="/home/pansou"  # 请修改为你的实际路径
 COMPOSE_FILE="docker-compose-nginx.yml"
 
 # 检查文件是否存在
@@ -48,7 +48,7 @@ echo -e "${GREEN}✅ 清理完成${NC}"
 
 # 步骤4: 启动新服务
 echo -e "${YELLOW}🚀 启动新服务...${NC}"
-docker-compose -f $COMPOSE_FILE up -d
+docker compose -f $COMPOSE_FILE up -d
 
 # 等待服务启动
 echo -e "${YELLOW}⏳ 等待服务启动...${NC}"
@@ -56,7 +56,7 @@ sleep 10
 
 # 步骤5: 检查服务状态
 echo -e "${YELLOW}🔍 检查服务状态...${NC}"
-docker-compose -f $COMPOSE_FILE ps
+docker compose -f $COMPOSE_FILE ps
 
 # 步骤6: 健康检查
 echo -e "${YELLOW}🩺 执行健康检查...${NC}"
