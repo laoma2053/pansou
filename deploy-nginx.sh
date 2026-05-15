@@ -37,7 +37,7 @@ fi
 
 # 步骤2: 拉取最新镜像
 echo -e "${YELLOW}🔄 拉取最新镜像...${NC}"
-docker pull fish2018/pansou:latest
+docker pull ghcr.io/fish2018/pansou:latest
 docker pull nginx:alpine
 echo -e "${GREEN}✅ 镜像拉取完成${NC}"
 
@@ -76,6 +76,17 @@ if curl -s http://localhost:8887/api/health > /dev/null; then
 else
     echo -e "${RED}❌ Nginx代理服务异常${NC}"
 fi
+
+# 🚀 性能测试 - 模拟原作者策略
+echo -e "\n${YELLOW}🚀 性能测试 - 分层搜索策略验证...${NC}"
+echo "测试TG搜索速度（应该 < 2秒）..."
+start_time=$(date +%s.%N)
+curl -s -X POST http://localhost:8887/api/search \
+  -H "Content-Type: application/json" \
+  -d '{"kw":"测试","src":"tg","res":"merged_by_type"}' > /dev/null
+end_time=$(date +%s.%N)
+duration=$(echo "$end_time - $start_time" | bc 2>/dev/null || echo "无法计算")
+echo "TG搜索用时: ${duration}秒"
 
 # 显示服务信息
 echo -e "\n${GREEN}🎉 部署完成！${NC}"

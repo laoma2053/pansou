@@ -38,7 +38,7 @@ body {
     justify-content: flex-start; /* 改为左对齐 */
     align-items: flex-start;
     padding: 20px;
-    padding-left: 105px; /* 调整为105px */
+    padding-left: 205px; /* 🎯 从105px扩大到205px */
     box-sizing: border-box;
     width: 100vw;
     max-width: 100vw;
@@ -47,7 +47,7 @@ body {
 
 /* 搜索结果页整体内容容器 - 固定宽度的包，内部左对齐 */
 .results-layout .main {
-    width: calc(100vw - 145px); /* 调整为145px，对应105px左边距 */
+    width: calc(100vw - 245px); /* 🎯 从145px调整为245px，对应205px左边距 */
     max-width: 720px; /* 保持最大宽度限制 */
     margin: 0;
     padding: 0 !important; /* 移除内部边距 */
@@ -75,12 +75,12 @@ body {
         justify-content: flex-start; /* 左对齐 */
         position: fixed; /* 使用固定定位替代sticky */
         top: 0; /* 固定在顶部 */
-        left: 105px; /* 与页面左边距保持一致 */
+        left: 205px; /* 🎯 从105px调整为205px，与页面左边距保持一致 */
         right: auto;
         z-index: 100; /* 确保在其他内容之上 */
         background: #fff; /* 确保背景色遮盖下方内容 */
         max-width: 720px; /* 保持最大宽度 */
-        width: calc(100vw - 145px); /* 与主容器宽度一致 */
+        width: calc(100vw - 245px); /* 🎯 从145px调整为245px，与主容器宽度一致 */
         padding: 12px 0 12px 0; /* 与基础样式一致，使用12px内边距 */
     }
     

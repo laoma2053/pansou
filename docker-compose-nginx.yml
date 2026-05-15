@@ -1,64 +1,69 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # PanSou后端API服务
   pansou-api:
-    image: fish2018/pansou:latest
+    image: ghcr.io/fish2018/pansou:latest
     container_name: pansou-api
     restart: unless-stopped
     ports:
-      - "8888:8888"  # 恢复端口暴露，保持健康检查正常工作
+      - "8888:8888" # 恢复端口暴露，保持健康检查正常工作
     environment:
-      - PORT=8888     # API服务端口
-      - CHANNELS=BaiduCloudDisk,txtyzy,peccxinpd,gotopan,xingqiump4,PanjClub,baicaoZY,MCPH01,bdwpzhpd,jdjdn1111,yggpan,MCPH086,zaihuayun,Q66Share,NewAliPan,Oscar_4Kmovies,ucwpzy,alyp_TV,Aliyun_4k_Movies,shareAliyun,alyp_1,Quark_Movies,XiangxiuNBB,NewQuark,ydypzyfx,ucquark,yingshifenxiang123,cloudtianyi,hdhhd21,oneonefivewpfx,Maidanglaocom,taoxgzy,tgsearchers115,Channel_Shares_115,vip115hot,wp123zy,yunpan139,yunpan189,yunpanuc,alyp_Animation,alyp_JLP,tgsearchers2,Lossless_Yinyue
-      # 缓存配置
-      - CACHE_ENABLED=true                 # 是否启用缓存
-      - CACHE_PATH=/app/cache              # 缓存文件路径
-      - CACHE_MAX_SIZE=1500                # 增加缓存大小到1.5GB，充分利用4GB内存
-      - CACHE_TTL=90                       # 增加缓存时间到90分钟，减少重复请求
-      - SHARD_COUNT=8                      # 缓存分片数量
-      - SERIALIZER_TYPE=gob                # 序列化器类型(gob/json)
-      # 压缩配置 - 推荐启用，提升传输效率
-      - ENABLE_COMPRESSION=true            # 启用压缩
-      - MIN_SIZE_TO_COMPRESS=2048          # 提高压缩阈值到2KB，避免小文件压缩开销
-      # GC和内存优化
-      - GC_PERCENT=100                     # 启用GC触发百分比
-      - OPTIMIZE_MEMORY=true               # 启用内存优化
-      # 插件配置
-      - PLUGIN_TIMEOUT=30                  # 插件执行超时时间(秒)
-      # 异步插件配置
-      - ASYNC_PLUGIN_ENABLED=true          # 启用异步插件
-      - ASYNC_RESPONSE_TIMEOUT=4           # 异步响应超时时间(秒)
-      - ASYNC_MAX_BACKGROUND_WORKERS=120   # 增加到120个workers，充分利用6核CPU
-      - ASYNC_MAX_BACKGROUND_TASKS=600    # 增加到600个任务，匹配更多workers
-      - ASYNC_CACHE_TTL_HOURS=1            # 异步缓存有效期（小时）
-      - ASYNC_LOG_ENABLED=false            # 异步插件详细日志开关
-      # HTTP服务器配置
-      #- HTTP_READ_TIMEOUT=30               # 读取超时时间(秒)  自动计算，最小30
-      #- HTTP_WRITE_TIMEOUT=60              # 写入超时时间(秒)  自动计算，最小60
-      - HTTP_IDLE_TIMEOUT=120              # 空闲连接超时时间(秒)
-      - HTTP_MAX_CONNS=500                 # 设置为作者推荐的最大值500，保证稳定性
-      - CONCURRENCY=80                     # 增加并发数到80，匹配更多workers
+      # ================================
+      # 🚀 基础配置
+      # ================================
+      - PORT=8888 # 服务端口 (默认: 8888) - 修改服务监听端口
+      - CHANNELS=xingqiump4,yunpanqk,kkxlzy,share_aliyun,NewAliPan,ypquark,alyp_TV,alyp_4K_Movies,NewQuark,kuakeyun,Maidanglaocom,tgsearchers115,alyp_Animation,alyp_JLP,Aliyun_4k_Movies,Lossless_Yinyue,pikpakpan,ruanjianfenxiang77,tgsearchers6,Aliyun_4K_Movies,bdbdndn11,yunpanx,bsbdbfjfjff,yp123pan,sbsbsnsqq,yunpanxunlei,tianyifc,BaiduCloudDisk,txtyzy,peccxinpd,gotopan,PanjClub,baicaoZY,MCPH01,MCPH02,MCPH03,bdwpzhpd,ysxb48,jdjdn1111,yggpan,MCPH086,zaihuayun,Q66Share,ucwpzy,shareAliyun,alyp_1,dianyingshare,Quark_Movies,XiangxiuNBB,ydypzyfx,ucquark,xx123pan,yingshifenxiang123,zyfb123,tyypzhpd,tianyirigeng,cloudtianyi,hdhhd21,Lsp115,oneonefivewpfx,qixingzhenren,taoxgzy,Channel_Shares_115,tyysypzypd,vip115hot,wp123zy,yunpan139,yunpan189,yunpanuc,yydf_hzl,leoziyuan,Q_dongman,yoyokuakeduanju,TG654TG,WFYSFX02,QukanMovie,yeqingjie_GJG666,movielover8888_film3,Baidu_netdisk,D_wusun,FLMdongtianfudi,KaiPanshare,QQZYDAPP,rjyxfx,PikPak_Share_Channel,btzhi,newproductsourcing,cctv1211,duan_ju,QuarkFree,yunpanNB,kkdj001,xxzlzn,pxyunpanxunlei,jxwpzy,kuakedongman,liangxingzhinan,xiangnikanj,solidsexydoll,guoman4K,zdqxm,kduanju,cilidianying,CBduanju,SharePanFilms,dzsgx,BooksRealm,Oscar_4Kmovies,douerpan,baidu_yppan,Q_jilupian,Netdisk_Movies,yunpanquark,ammmziyuan,ciliziyuanku,cili8888,jzmm_123pan,Q_dianying,domgmingapk,dianying4k,q_dianshiju,tgbokee,ucshare,godupan,gokuapan,gimy115,WFYSFX03,peccxin,Movie888035,xlwpzy,zyywpzy,wydwpzy,gimy100,gimy115iso,aliyunys,clouddriveresources,XunLeiPinDao,ydwpzy,a123fxme,WPpindao,kuyupan,djya5,yingshiziyuanpindao,zh_vip,pan_guangya # 默认搜索的TG频道 (默认: tgsearchers3) - 多个频道用逗号分隔
+      - ENABLED_PLUGINS=hunhepan,jikepan,panwiki,pansearch,panta,qupansou,hdr4k,pan666,susu,wanou,xuexizhinan,panyq,zhizhen,labi,muou,ouge,shandian,duoduo,huban,cyg,erxiao,miaoso,fox4k,pianku,xiaozhang,libvio,leijing,xb6v,xys,ddys,hdmoli,javdb,jutoushe,sdso,xiaoji,xdyh,haisou,bixin,djgou,nyaa,xinjuc,aikanzy,qupanshe,xdpan,discourse,yunsou,qqpd,ahhhhfs,nsgame,gying,quark4k,quarksoo,sousou,ash,weibo,feikuai,kkmao,alupan,ypfxw,mikuclub,daishudj,dyyj,meitizy,jsnoteclub,mizixing,lou1,yiove,zxzj,qingying,kkv,yulinshufa,duanjuw,jupansou,lingjisp,quarktv,dyyjpro,gaoqing888,panlian,panzun # 插件配置(镜像已包含推荐插件，如需自定义可取消注释并修改) 纯磁力的 clmao,wuji,cldi,yuhuage,u3c3,clxiong,thepiratebay
+      # ================================
+      # ⚙ 性能优化配置 (非默认值)
+      # ================================
+      - ASYNC_RESPONSE_TIMEOUT=2 # 快速响应超时时间(秒) (默认: 4) - 从4秒改为2秒，提升响应速度
+      - ASYNC_LOG_ENABLED=false # 异步插件详细日志 (默认: true) - 关闭详细日志，减少I/O开销
+      - CACHE_PATH=/app/cache # 缓存文件路径 (默认: ./cache) - 使用绝对路径，确保缓存目录正确
+      - AUTH_ENABLED=false # 安全认证是否启用 (默认: true) - 临时禁用认证，简化访问测试
+      #- CACHE_TTL=600              # 缓存有效期(分钟) (默认: 60) - 搜索结果缓存时长
+      #- CACHE_WRITE_STRATEGY=immediate # 缓存立即写入 (默认: hybrid) - 确保TG结果快速缓存
+
+      # ================================
+      # ⚡ 基于16核16GB服务器的硬件优化
+      # ================================
+      - GC_PERCENT=200 # Go GC触发百分比 (默认: 100) - 减少GC频率，适合大内存服务器
+      - SHARD_COUNT=16 # 缓存分片数量 (默认: 8) - 与CPU核心数匹配，减少缓存锁竞争
+      - CACHE_MAX_SIZE=800 # 最大缓存大小(MB) (默认: 100) - 充分利用16GB内存
+      - MIN_SIZE_TO_COMPRESS=2048 # 最小压缩阈值(字节) (默认: 1024) - 减少小文件压缩的CPU开销
+
+      # ================================
+      # 📝 采用默认值的配置项 (已注释，仅供参考)
+      # ================================
+      # - ENABLE_COMPRESSION=false  # 是否启用压缩 (默认: false) - 临时禁用压缩测试重复响应问题
+      # - CONCURRENCY=auto          # 并发搜索数 (默认: 自动计算) - 自动设置为频道数+插件数+10
+      # - CACHE_TTL=60              # 缓存有效期(分钟) (默认: 60) - 搜索结果缓存时长
+      # - PLUGIN_TIMEOUT=30         # 插件超时时间(秒) (默认: 30) - 单个插件最大执行时间
+      # - CACHE_WRITE_STRATEGY=hybrid # 缓存写入策略 (默认: hybrid) - immediate立即写入/hybrid混合策略
+      # - ASYNC_MAX_BACKGROUND_WORKERS=80 # 最大后台工作者数量 (默认: CPU核心数×5=16×5=80) - 异步任务工作线程数
+      # - ASYNC_MAX_BACKGROUND_TASKS=400  # 最大后台任务数量 (默认: 工作者数×5=80×5=400) - 任务队列最大容量
+      # - ASYNC_CACHE_TTL_HOURS=1   # 异步缓存有效期(小时) (默认: 1) - 异步任务结果缓存时长
+      # - ASYNC_PLUGIN_ENABLED=true # 异步插件是否启用 (默认: true) - 是否启用异步插件搜索
+      # - ENABLED_PLUGINS=all       # 指定启用插件 (默认: 所有) - 多个插件用逗号分隔，不指定则全部启用
+      # - HTTP_READ_TIMEOUT=auto    # HTTP读取超时(秒) (默认: 自动计算) - HTTP请求读取超时时间
+      # - HTTP_WRITE_TIMEOUT=auto   # HTTP写入超时(秒) (默认: 自动计算) - HTTP响应写入超时时间
+      # - HTTP_IDLE_TIMEOUT=120     # HTTP空闲超时(秒) (默认: 120) - 连接空闲超时时间
+      # - HTTP_MAX_CONNS=auto       # HTTP最大连接数 (默认: 自动计算) - 最大并发连接数
+      # - PROXY=                    # SOCKS5代理 (默认: 无) - 如: socks5://127.0.0.1:1080
 
     volumes:
       - pansou-cache:/app/cache
     networks:
       - pansou-network
-    # 资源限制 - 基于16核16G服务器优化，充分利用资源
-    deploy:
-      resources:
-        limits:
-          memory: 4G      # 增加到4GB，充分利用服务器内存
-          cpus: '6.0'     # 增加到6核，匹配80个workers的高并发需求
-        reservations:
-          memory: 2G      # 保证最少2GB，确保稳定运行
-          cpus: '2.0'     # 保证最少2核，基础性能保障
+
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8888/api/health"]
+      test:
+        ["CMD", "wget", "-q", "--spider", "http://localhost:8888/api/health"]
       interval: 30s
-      timeout: 15s       # 进一步增加超时时间，适应更大资源配置
+      timeout: 5s # 进一步增加超时时间，适应更大资源配置
       retries: 3
-      start_period: 20s  # 增加启动时间，确保所有worker充分初始化
+      start_period: 10s # 增加启动时间，确保所有worker充分初始化
 
   # Nginx服务，提供前端页面和API代理
   pansou-web:
@@ -66,7 +71,7 @@ services:
     container_name: pansou-web
     restart: unless-stopped
     ports:
-      - "8887:80"  # 宿主机8887端口，容器内80端口（nginx默认端口）
+      - "8887:80" # 宿主机8887端口，容器内80端口（nginx默认端口）
     volumes:
       - ./web:/usr/share/nginx/html
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
@@ -76,15 +81,7 @@ services:
         condition: service_healthy
     networks:
       - pansou-network
-    # 资源限制 - 基于高并发API代理需求优化
-    deploy:
-      resources:
-        limits:
-          memory: 512M    # 增加到512MB，支持大量API代理缓存
-          cpus: '2.0'     # 增加到2核，处理高并发代理请求
-        reservations:
-          memory: 256M    # 保证最少256MB，确保缓存效果
-          cpus: '0.5'     # 保证最少0.5核，基础代理性能
+
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost/nginx-status"]
       interval: 30s
